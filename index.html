@@ -5,58 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BSIT-1C</title>
 <link rel="stylesheet" href="style.css">
-<style>
-.video-slide img,
-.video-slide iframe {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  border: 0;
-  object-fit: cover;
-  display: block;
-  background: #000;
-}
-
-.video-slide.pos-center {
-  cursor: pointer;
-}
-
-.drive-play {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 84px;
-  height: 84px;
-  border-radius: 50%;
-  border: 2px solid rgba(96,207,255,0.7);
-  background: rgba(10,15,44,0.65);
-  color: #60CFFF;
-  font-size: 30px;
-  padding-left: 6px;
-  cursor: pointer;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 0 30px rgba(96,207,255,0.35);
-  transition: transform 0.3s ease, background 0.3s ease, opacity 0.3s ease;
-  z-index: 2;
-}
-
-.video-slide.pos-center:hover .drive-play {
-  transform: translate(-50%, -50%) scale(1.1);
-  background: rgba(96,207,255,0.2);
-}
-
-.video-slide.pos-left .drive-play,
-.video-slide.pos-right .drive-play {
-  opacity: 0;
-  pointer-events: none;
-}
-
-@media (max-width: 768px) {
-  .drive-play { width: 60px; height: 60px; font-size: 22px; }
-}
-</style>
 </head>
 
 <body>
@@ -118,9 +66,24 @@
 
 <section class="video-section" id="video">
   <div class="video-carousel" id="videoCarousel" tabindex="0">
-    <div class="carousel-track" id="carouselTrack">
+    <div class="carousel-track">
+      <div class="video-slide">
+        <video src="video.mp4#t=0.5" preload="metadata" muted playsinline></video>
+      </div>
+      <div class="video-slide">
+        <video src="FOUND.mp4#t=0.5" preload="metadata" muted playsinline></video>
+      </div>
+      <div class="video-slide">
+        <video src="STOPVER.mp4#t=0.5" preload="metadata" muted playsinline></video>
+      </div>
+
       <button class="carousel-btn prev" id="prevVideo" aria-label="Previous video">&#10094;</button>
       <button class="carousel-btn next" id="nextVideo" aria-label="Next video">&#10095;</button>
+
+      <div class="volume-control">
+        <button class="volume-btn" id="volumeBtn" aria-label="Mute or unmute">&#128266;</button>
+        <input type="range" class="volume" id="volume" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+      </div>
     </div>
     <div class="carousel-dots" id="carouselDots"></div>
   </div>
@@ -330,43 +293,56 @@ window.addEventListener("resize", () => {
 
 <script>
 (function () {
-  const driveVideos = [
-    "https://drive.google.com/file/d/1-RQE3Aylkw16j4SMMTEHr4NX7188JYlp/view?usp=sharing",
-    "https://drive.google.com/file/d/1PTm4sphi8GpbmPdn8VtO-doY3ErGhqxE/view?usp=sharing",
-    "https://drive.google.com/file/d/1gAIzKre7NZ6OlJjtQPS3lJ0SLw46Ywv3/view?usp=sharing"
-  ];
-
   const carousel = document.getElementById("videoCarousel");
   const section = document.getElementById("video");
-  const track = document.getElementById("carouselTrack");
+  const slides = Array.from(carousel.querySelectorAll(".video-slide"));
   const prevBtn = document.getElementById("prevVideo");
   const nextBtn = document.getElementById("nextVideo");
   const dotsWrap = document.getElementById("carouselDots");
-  const total = driveVideos.length;
-  const slides = [];
+  const volumeSlider = document.getElementById("volume");
+  const volumeBtn = document.getElementById("volumeBtn");
+  const total = slides.length;
   const dots = [];
   let index = 0;
+  let inView = false;
+  let volumeLevel = 1;
+  let muted = false;
   let startX = 0;
 
-  function getDriveId(link) {
-    const match = link.match(/\/d\/([^/?]+)/) || link.match(/[?&]id=([^&]+)/);
-    return match ? match[1] : link;
+  function activeVideo() {
+    return slides[index].querySelector("video");
   }
 
-  const ids = driveVideos.map(getDriveId);
-
-  function showThumb(i) {
-    slides[i].innerHTML =
-      '<img src="https://drive.google.com/thumbnail?id=' + ids[i] + '&sz=w1000" alt="Video ' + (i + 1) + ' preview">' +
-      '<button class="drive-play" aria-label="Play video">&#9654;</button>';
-    slides[i].dataset.playing = "false";
+  function volumeIcon(level) {
+    if (level === 0) return "&#128263;";
+    if (level < 0.5) return "&#128265;";
+    return "&#128266;";
   }
 
-  function loadPlayer(i) {
-    slides[i].innerHTML =
-      '<iframe src="https://drive.google.com/file/d/' + ids[i] + '/preview" ' +
-      'allow="autoplay; fullscreen" allowfullscreen title="Drive video ' + (i + 1) + '"></iframe>';
-    slides[i].dataset.playing = "true";
+  function updateVolumeUI() {
+    const level = muted ? 0 : volumeLevel;
+    volumeSlider.value = level;
+    volumeSlider.style.setProperty("--vol", (level * 100) + "%");
+    volumeBtn.innerHTML = volumeIcon(level);
+  }
+
+  function applyVolume(video) {
+    video.volume = volumeLevel;
+    video.muted = muted;
+  }
+
+  function playActive() {
+    const video = activeVideo();
+    applyVolume(video);
+    const attempt = video.play();
+    if (attempt && attempt.catch) {
+      attempt.catch(() => {
+        muted = true;
+        applyVolume(video);
+        updateVolumeUI();
+        video.play().catch(() => {});
+      });
+    }
   }
 
   function render() {
@@ -378,7 +354,7 @@ window.addEventListener("resize", () => {
       else if (offset === -1) pos = "pos-left";
       else if (offset === 1) pos = "pos-right";
       slide.className = "video-slide " + pos;
-      if (offset !== 0 && slide.dataset.playing === "true") showThumb(i);
+      if (offset !== 0) slide.querySelector("video").pause();
     });
     dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
   }
@@ -386,32 +362,31 @@ window.addEventListener("resize", () => {
   function goTo(i) {
     index = ((i % total) + total) % total;
     render();
+    const video = activeVideo();
+    video.currentTime = 0;
+    if (inView) playActive();
   }
 
   function next() { goTo(index + 1); }
   function prev() { goTo(index - 1); }
 
-  ids.forEach((id, i) => {
-    const slide = document.createElement("div");
-    slide.className = "video-slide";
-    track.insertBefore(slide, prevBtn);
-    slides.push(slide);
-    showThumb(i);
-
-    slide.addEventListener("click", () => {
-      if (i !== index) {
-        goTo(i);
-      } else if (slide.dataset.playing !== "true") {
-        loadPlayer(i);
-      }
-    });
-
+  slides.forEach((slide, i) => {
     const dot = document.createElement("button");
     dot.className = "carousel-dot";
     dot.setAttribute("aria-label", "Go to video " + (i + 1));
     dot.addEventListener("click", () => goTo(i));
     dotsWrap.appendChild(dot);
     dots.push(dot);
+
+    slide.addEventListener("click", () => {
+      if (i !== index) goTo(i);
+    });
+
+    const video = slide.querySelector("video");
+    video.loop = total === 1;
+    video.addEventListener("ended", () => {
+      if (i === index && total > 1) next();
+    });
   });
 
   if (total < 2) {
@@ -422,6 +397,24 @@ window.addEventListener("resize", () => {
 
   prevBtn.addEventListener("click", prev);
   nextBtn.addEventListener("click", next);
+
+  volumeSlider.addEventListener("input", () => {
+    volumeLevel = Number(volumeSlider.value);
+    muted = volumeLevel === 0;
+    applyVolume(activeVideo());
+    updateVolumeUI();
+  });
+
+  volumeBtn.addEventListener("click", () => {
+    if (muted) {
+      muted = false;
+      if (volumeLevel === 0) volumeLevel = 0.5;
+    } else {
+      muted = true;
+    }
+    applyVolume(activeVideo());
+    updateVolumeUI();
+  });
 
   carousel.addEventListener("keydown", (e) => {
     if (e.key === "ArrowLeft") {
@@ -447,15 +440,20 @@ window.addEventListener("resize", () => {
 
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting && slides[index].dataset.playing === "true") {
-        showThumb(index);
+      if (entry.isIntersecting) {
+        inView = true;
+        playActive();
+      } else {
+        inView = false;
+        activeVideo().pause();
       }
     });
-  }, { threshold: 0.1 });
+  }, { threshold: 0.5 });
 
   observer.observe(section);
 
   render();
+  updateVolumeUI();
 })();
 </script>
 
