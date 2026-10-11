@@ -1,0 +1,461 @@
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BSIT-1C</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header> 
+<button class="mobile-menu-toggle" id="mobileMenuToggle" style="display: none;">☰</button>
+
+  <div class="nav-left">
+    <a href="#home">
+      <img src="logos/LOGO-removebg-preview.png" class="logo" alt="Logo">
+    </a>
+  </div>
+
+  <div class="nav-center" id="navCenter">
+    <ul class="nav1">
+      <li><a href="#home">Home</a></li>
+      <li><a href="#video">Video</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#rates">Rates</a></li>
+      <li><a href="#footer">Contacts</a></li>
+    </ul>
+  </div>
+
+  <div class="header-buttons">
+    <button class="resume-btn" id="openResume">Resume</button>
+    <button id="themeToggle">🌙</button>
+  </div>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-container">
+    <div class="hero-left">
+      <img src="pictures/STOPVER.png" alt="Aerial">
+      <div class="hero-text">
+        <h2>AERIAL</h2>
+        <p>For immersive view from the top. Cinematic outdoor shots</p>
+      </div>
+    </div>
+
+    <div class="hero-right">
+      <div class="hero-card">
+        <img src="pictures/GOGGLES.jpg" alt="Indoors">
+        <div class="card-text">
+          <h3>INDOORS</h3>
+          <p>Fly safely through tight spaces</p>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <img src="pictures/DJI.jpg" alt="Sports">
+        <div class="card-text">
+          <h3>SPORTS</h3>
+          <p>Fast pace shots for action scenes</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="video-section" id="video">
+  <div class="video-carousel" id="videoCarousel" tabindex="0">
+    <div class="carousel-track">
+      <div class="video-slide">
+        <video src="videos/video.mp4#t=0.5" preload="metadata" muted playsinline></video>
+      </div>
+      <div class="video-slide">
+        <video src="videos/FOUND.mp4#t=0.5" preload="metadata" muted playsinline></video>
+      </div>
+      <div class="video-slide">
+        <video src="videos/STOPVER.mp4#t=0.5" preload="metadata" muted playsinline></video>
+      </div>
+
+      <button class="carousel-btn prev" id="prevVideo" aria-label="Previous video">&#10094;</button>
+      <button class="carousel-btn next" id="nextVideo" aria-label="Next video">&#10095;</button>
+
+      <div class="volume-control">
+        <button class="volume-btn" id="volumeBtn" aria-label="Mute or unmute">&#128266;</button>
+        <input type="range" class="volume" id="volume" min="0" max="1" step="0.05" value="1" aria-label="Volume">
+      </div>
+    </div>
+    <div class="carousel-dots" id="carouselDots"></div>
+  </div>
+</section>
+
+<section class="about" id="about">
+  <div class="image_about">
+    <img src="pictures/ABOUT.png" alt="Joshua Tan">
+  </div>
+
+  <div class="about-text">
+    <h1>Joshua Tan</h1>
+    <h3>FPV Drone Pilot</h3>
+    <p>
+      I fly FPV Drone for indoors, aerial, photography, videography, and sports.
+      I am currently studying BSIT at University of Eastern Pangasinan.
+      I build skills in programming, systems, and web development.
+      I apply what I learn to real projects.
+    </p>
+    <div class="skills">
+      <span>C#</span>
+      <span>Python</span>
+      <span>C++</span>
+      <span>Java</span>
+      <span>PHP</span>
+      <span>MySQL</span>
+    </div>
+  </div>
+</section>
+
+<section class="rates" id="rates">
+  <div class="rates-container">
+    <h1>Rates</h1>
+    <p class="intro">
+      Thank you for your interest in my FPV drone shots! Here are my current rates:
+    </p>
+    <div class="rate-list">
+      <p>₱3,000 – Raw and stabilized FPV footage</p>
+      <p>₱3,000–₱5,000 – Depending on the flight pattern and difficulty</p>
+      <p>₱8,000 – With full video editing included</p>
+    </div>
+    <p class="details">
+      Each project is unique, so pricing may vary slightly based on the location,
+      complexity of the flight, and specific requests.
+    </p>
+    <p class="details">
+      If you could share a few details about your project (location, duration,
+      and the kind of shots you're aiming for), I'd be happy to give you a more
+      accurate quote.
+    </p>
+    <p class="closing">
+      Looking forward to working with you and capturing something awesome!
+    </p>
+  </div>
+</section>
+
+<div class="resume-modal" id="resumeModal">
+  <div class="resume-container">
+    <div class="resume-header">
+      <img src="ABOUT.png" alt="Profile">
+      <h1>Joshua L. Tan</h1>
+      <p>FPV Drone Pilot | BSIT Student</p>
+      <button class="close-resume" id="closeResume">✕</button>
+    </div>
+    <div class="resume-body">
+      <div class="resume-section">
+        <p>Brgy. Agno, Tayug, Pangasinan</p>
+        <p>📞 +63 993 5939 5756</p>
+        <p>✉️ joshualacsinatan@gmail.com</p>
+      </div>
+      <div class="resume-section">  
+        <p>Hi! I'm <b>Joshua Tan</b>, an FPV Drone Pilot and BSIT student at the University of Eastern Pangasinan. 
+          I am passionate about programming, systems development, and web development. I continuously improve 
+          my technical and creative skills by applying what I learn to real-world projects and hands-on experiences. 
+          I aim to grow professionally while creating innovative and meaningful digital solutions.</p>        
+      </div>
+      <div class="resume-section">
+        <h2>Skills</h2>
+        <div class="resume-tags">
+          <span>C++</span>
+          <span>Html/Css</span>
+          <span>Java</span>
+          <span>Python</span>
+          <span>MySQL</span>
+          <span>C#</span>
+        </div>
+      </div>
+      <div class="resume-section">
+        <h2>Education</h2>
+        <ul>
+          <li><b>Bachelor of Science in Information Technology (BSIT)</b>
+          <br> University Of Eastern Pangasinan – [Binalonan, Pangasinan] 
+          <br> Expected Graduation: 2029</li>
+        </ul>
+      </div>
+      <div class="resume-section">
+        <h2>Additional Information</h2>
+        <ul>
+          <li>Strong communication skills</li> 
+          <li>Ability to multitask and work under pressure</li>
+          <li>Team player with a positive attitude</li>
+          <li>Quick learner and adaptable</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer class="footer" id="footer">
+  <div class="footer-left">
+    <a href="https://www.facebook.com/tan.jusuuwaaa" target="_blank">Facebook</a>
+    <a href="https://www.instagram.com/tf.hoshva/" target="_blank">Instagram</a>
+    <a href="https://www.youtube.com/@hoshyva" target="_blank">Youtube</a>
+  </div>
+  <div class="footer-middle">
+    <p>© Created and Design by Hoshyva. All rights reserved.</p>
+  </div>
+  <div class="footer-right">
+    <p>+63 993 5939 5756 <br>
+      joshualacsinatan@gmail.com
+    </p>
+  </div>
+</footer>
+
+<script>
+const toggleBtn = document.getElementById("themeToggle");
+const mobileMenuToggle = document.getElementById("mobileMenuToggle");
+const navCenter = document.getElementById("navCenter");
+const resumeModal = document.getElementById("resumeModal");
+const openResume = document.getElementById("openResume");
+const closeResume = document.getElementById("closeResume");
+
+if (localStorage.getItem("theme") === "light") {
+  document.body.classList.add("light-mode");
+  toggleBtn.textContent = "☀️";
+}
+
+toggleBtn.addEventListener("click", () => {
+  document.body.classList.toggle("light-mode");
+  if (document.body.classList.contains("light-mode")) {
+    localStorage.setItem("theme", "light");
+    toggleBtn.textContent = "☀️";
+  } else {
+    localStorage.setItem("theme", "dark");
+    toggleBtn.textContent = "🌙";
+  }
+});
+
+if (window.innerWidth <= 768) {
+  mobileMenuToggle.style.display = "block";
+}
+
+mobileMenuToggle?.addEventListener("click", () => {
+  navCenter.classList.toggle("active");
+});
+
+document.querySelectorAll(".nav1 a").forEach(link => {
+  link.addEventListener("click", () => {
+    navCenter.classList.remove("active");
+  });
+});
+
+openResume.addEventListener("click", () => {
+  resumeModal.classList.add("show");
+});
+
+closeResume.addEventListener("click", () => {
+  resumeModal.classList.remove("show");
+});
+
+resumeModal.addEventListener("click", (e) => {
+  if (e.target === resumeModal) {
+    resumeModal.classList.remove("show");
+  }
+});
+
+const sections = document.querySelectorAll("section");
+const navLinks = document.querySelectorAll(".nav1 a");
+
+window.addEventListener("scroll", () => {
+  let current = "";
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop - 120;
+    const sectionHeight = section.clientHeight;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute("id");
+    }
+  });
+
+  navLinks.forEach(link => {
+    link.classList.remove("active");
+    if (link.getAttribute("href") === "#" + current) {
+      link.classList.add("active");
+    }
+  });
+});
+
+window.addEventListener("resize", () => {
+  if (window.innerWidth > 768) {
+    navCenter.classList.remove("active");
+    mobileMenuToggle.style.display = "none";
+  } else {
+    mobileMenuToggle.style.display = "block";
+  }
+});
+</script>
+
+<script>
+(function () {
+  const carousel = document.getElementById("videoCarousel");
+  const section = document.getElementById("video");
+  const slides = Array.from(carousel.querySelectorAll(".video-slide"));
+  const prevBtn = document.getElementById("prevVideo");
+  const nextBtn = document.getElementById("nextVideo");
+  const dotsWrap = document.getElementById("carouselDots");
+  const volumeSlider = document.getElementById("volume");
+  const volumeBtn = document.getElementById("volumeBtn");
+  const total = slides.length;
+  const dots = [];
+  let index = 0;
+  let inView = false;
+  let volumeLevel = 1;
+  let muted = false;
+  let startX = 0;
+
+  function activeVideo() {
+    return slides[index].querySelector("video");
+  }
+
+  function volumeIcon(level) {
+    if (level === 0) return "&#128263;";
+    if (level < 0.5) return "&#128265;";
+    return "&#128266;";
+  }
+
+  function updateVolumeUI() {
+    const level = muted ? 0 : volumeLevel;
+    volumeSlider.value = level;
+    volumeSlider.style.setProperty("--vol", (level * 100) + "%");
+    volumeBtn.innerHTML = volumeIcon(level);
+  }
+
+  function applyVolume(video) {
+    video.volume = volumeLevel;
+    video.muted = muted;
+  }
+
+  function playActive() {
+    const video = activeVideo();
+    applyVolume(video);
+    const attempt = video.play();
+    if (attempt && attempt.catch) {
+      attempt.catch(() => {
+        muted = true;
+        applyVolume(video);
+        updateVolumeUI();
+        video.play().catch(() => {});
+      });
+    }
+  }
+
+  function render() {
+    slides.forEach((slide, i) => {
+      let offset = ((i - index) % total + total) % total;
+      if (offset > total / 2) offset -= total;
+      let pos = "pos-hidden";
+      if (offset === 0) pos = "pos-center";
+      else if (offset === -1) pos = "pos-left";
+      else if (offset === 1) pos = "pos-right";
+      slide.className = "video-slide " + pos;
+      if (offset !== 0) slide.querySelector("video").pause();
+    });
+    dots.forEach((dot, i) => dot.classList.toggle("active", i === index));
+  }
+
+  function goTo(i) {
+    index = ((i % total) + total) % total;
+    render();
+    const video = activeVideo();
+    video.currentTime = 0;
+    if (inView) playActive();
+  }
+
+  function next() { goTo(index + 1); }
+  function prev() { goTo(index - 1); }
+
+  slides.forEach((slide, i) => {
+    const dot = document.createElement("button");
+    dot.className = "carousel-dot";
+    dot.setAttribute("aria-label", "Go to video " + (i + 1));
+    dot.addEventListener("click", () => goTo(i));
+    dotsWrap.appendChild(dot);
+    dots.push(dot);
+
+    slide.addEventListener("click", () => {
+      if (i !== index) goTo(i);
+    });
+
+    const video = slide.querySelector("video");
+    video.loop = total === 1;
+    video.addEventListener("ended", () => {
+      if (i === index && total > 1) next();
+    });
+  });
+
+  if (total < 2) {
+    prevBtn.style.display = "none";
+    nextBtn.style.display = "none";
+    dotsWrap.style.display = "none";
+  }
+
+  prevBtn.addEventListener("click", prev);
+  nextBtn.addEventListener("click", next);
+
+  volumeSlider.addEventListener("input", () => {
+    volumeLevel = Number(volumeSlider.value);
+    muted = volumeLevel === 0;
+    applyVolume(activeVideo());
+    updateVolumeUI();
+  });
+
+  volumeBtn.addEventListener("click", () => {
+    if (muted) {
+      muted = false;
+      if (volumeLevel === 0) volumeLevel = 0.5;
+    } else {
+      muted = true;
+    }
+    applyVolume(activeVideo());
+    updateVolumeUI();
+  });
+
+  carousel.addEventListener("keydown", (e) => {
+    if (e.key === "ArrowLeft") {
+      e.preventDefault();
+      prev();
+    } else if (e.key === "ArrowRight") {
+      e.preventDefault();
+      next();
+    }
+  });
+
+  carousel.addEventListener("touchstart", (e) => {
+    startX = e.touches[0].clientX;
+  }, { passive: true });
+
+  carousel.addEventListener("touchend", (e) => {
+    const diff = e.changedTouches[0].clientX - startX;
+    if (Math.abs(diff) > 50) {
+      if (diff < 0) next();
+      else prev();
+    }
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        inView = true;
+        playActive();
+      } else {
+        inView = false;
+        activeVideo().pause();
+      }
+    });
+  }, { threshold: 0.5 });
+
+  observer.observe(section);
+
+  render();
+  updateVolumeUI();
+})();
+</script>
+
+</body>
+</html>
